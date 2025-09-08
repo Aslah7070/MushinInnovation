@@ -38,7 +38,7 @@ export class AuthController {
          const { accessToken,user} = response.data;
         
         dispatch(setUser({accessToken,user}))
-        navigate("/user")
+        navigate("/home");
 
        }
   }
