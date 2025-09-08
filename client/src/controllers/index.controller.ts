@@ -19,19 +19,12 @@ export class AuthController {
       if (response) {
            
         const { accessToken,user} = response.data;
-        const {role}=user
+
         
         dispatch(setUser({accessToken,user}));
 
-        const roleRoutes = {
-          ADMIN: "/admin",
-          CLIENT: "/user",
-          EXPERTS: "/expert",
-        };
 
-        const route = roleRoutes[role as keyof typeof roleRoutes];
-        console.log("hello",route)
-        navigate(route);
+        navigate("/home");
       }
     } catch (error) {
       console.log(error)
@@ -61,4 +54,9 @@ export class AuthController {
 
        }
   }
+
+  
+
+
+  
 }

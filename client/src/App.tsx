@@ -3,11 +3,14 @@ import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes/AppRoute'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();  
 function App() {
 
 
   return (
        <>
+       <QueryClientProvider client={queryClient}>
       <BrowserRouter>
 
         <AppRoutes />
@@ -27,6 +30,7 @@ function App() {
         
 
       </BrowserRouter>
+      </QueryClientProvider>
     </>
   )
 }

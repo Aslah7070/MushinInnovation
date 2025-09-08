@@ -1,5 +1,5 @@
 
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 // import Home from '../pages/Home'
 
 // import MainLayout from '../layout/Main'
@@ -16,11 +16,12 @@ const AppRoutes = () => {
   <Routes>
     <Route element={<MainLayout/>}>
      <Route  path='/home' element={
-        <ProtectedRoute allowedRoles={["CLIENT"]} >
+        <ProtectedRoute allowedRoles={["user"]} >
             <HomePage/>
         </ProtectedRoute>
      }/>
      </Route>
+     <Route path="/" element={<Navigate to="/login" replace />} />
     <Route  path='/login' element={<Auth type="login" />}/>
     <Route  path='/signup' element={<Auth type="signup" />}/>
 

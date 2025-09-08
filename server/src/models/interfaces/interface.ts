@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 export interface IUser extends Document {
   name: string;
@@ -8,6 +8,13 @@ export interface IUser extends Document {
   role: "user" | "admin";   
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface ITask extends Document {
+  title: string;
+  status: "pending"| "completed";
+  description:string
+  user: mongoose.Types.ObjectId; 
 }
 
 export type RequestHandler = (

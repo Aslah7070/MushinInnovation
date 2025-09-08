@@ -8,6 +8,8 @@ import cookieParser from "cookie-parser";
 import { env } from "./configs/env.config";
 import { connectDb } from "./configs/db.config";
 import { auth } from "./routes/index.route";
+import { task } from "./routes/task.route";
+import { errorHandler } from "./middlewares/error-catch";
 
 const app = express();
 app.use(
@@ -28,11 +30,12 @@ app.use(express.urlencoded({ limit: '10mb', extended: false }));
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth",auth)
+app.use("/api/task",task)
 
 connectDb();
      
 
-
+app.use(errorHandler);
 app.listen(env.PORT, () => console.log(`Server started at ${env.PORT} `));
 
   

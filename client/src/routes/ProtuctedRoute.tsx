@@ -35,14 +35,17 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           dispatch(
             setUser({user})
           );
+         
         } else {
           dispatch(logOut());
+     
           navigate("/"); 
         }
       } catch (error) {
         console.error("Token verification failed:", error);
         dispatch(logOut());
-        navigate("/");
+       
+        navigate("/login");
       } finally {
         setIsLoading(false);
       }
@@ -55,7 +58,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return (
       <div className="w-full h-screen flex items-center justify-center">
         {/* <ScaleLoader color="rgb(37, 99, 235)" /> */}
-     <h1>hello</h1>
+     <h1>helloasdS</h1>
   
       </div>
     );

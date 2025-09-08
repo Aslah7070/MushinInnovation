@@ -118,6 +118,44 @@ export const logout = async (
   }
 };
 
+  
+
+
+export const refreshAccessToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+      res.status(HttpStatus.UNAUTHORIZED).json({ message: "No refresh token provided" });
+      return;
+    }
+
+    // Verify refresh token
+    let decodedToken: IPayload|null
+    try {
+      decodedToken = await verifyRefreshToken(refreshToken)
+    } catch (err) {
+      res.status(HttpStatus.FORBIDDEN).json({ message: "Invalid refresh token" });
+      return;
+    }
+     if(!decodedToken){
+      res.status(HttpStatus.UNAUTHORIZED).json({success:false,message:HttpResponse.TOKEN_INVALID})
+      return
+     }
+
+    const newAccessToken = await generateAccessToken(decodedToken)
+
+    res.status(HttpStatus.OK).json({ accessToken: newAccessToken });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export const verifyToken = async (
   req: Request,
   res: Response,
@@ -125,9 +163,9 @@ export const verifyToken = async (
 ): Promise<void> => {
   const accessToken: string | null =
     req.headers["authorization"]?.split(" ")[1] || null;
-
+    console.log(accessToken)
   const refreshToken = req.cookies.refreshToken;
-
+ console.log("refreshToken",refreshToken)
   if (!accessToken && !refreshToken) {
     res
       .status(HttpStatus.UNAUTHORIZED)
@@ -140,6 +178,7 @@ export const verifyToken = async (
   if (accessToken) {
     try {
       decodedToken = await verifyAccessToken(accessToken);
+      console.log("decodedToken",decodedToken)
     } catch {
       if (!refreshToken) {
         res
@@ -178,7 +217,7 @@ export const verifyToken = async (
   }
 
   try {
-    const user = await User.findOne({ email: decodedToken.email });
+    const user = await User.findById(decodedToken._id);
     if (!user) {
       res.status(404).json({ success: false, message: "Not found" });
       return;
@@ -192,3 +231,7 @@ export const verifyToken = async (
      console.log(error)
   }
 };
+
+
+
+

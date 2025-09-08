@@ -7,10 +7,17 @@ import {Label} from "../components/ui/label"
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 // import { Spinner } from "../re-usable/spinner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "../schemas/auth.schema";
+import { AuthController } from "../controllers/index.controller";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { Spinner } from "../re-usable/spinner";
 
 const Login = () => {
+  const [loading,setLoading]=useState(false)
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
 
     const formik = useFormik({
     initialValues: {
@@ -20,6 +27,15 @@ const Login = () => {
     validationSchema: loginSchema,
     onSubmit: async (values) => {
      console.log(values)
+     const{email,password}=values
+  try {
+    setLoading(true)
+       await AuthController.login(email,password,dispatch,navigate)
+  } catch (error) {
+    console.log(error)
+  }finally{
+    setLoading(false)
+  }
     },
   });
   return (
@@ -71,11 +87,11 @@ const Login = () => {
           variant={"blue"}
           rounded={"md"}
             type="submit"
-            // disabled={loading}
+            disabled={loading}
             className="flex justify-between "
           >
              Log In
-           {/* <span > {loading&&<Spinner/>}</span> */}
+           <span > {loading&&<Spinner/>}</span>
           </Button>
         </form>
 
