@@ -7,11 +7,12 @@ const REFRESH_KEY = env.JWT_REFRESH_SECRET as string;
 console.log(ACCESS_KEY)
 console.log(REFRESH_KEY)
 
-const ACCESS_TOKEN_EXPIRY = "40m";  
+const ACCESS_TOKEN_EXPIRY = "15m";  
 const REFRESH_TOKEN_EXPIRY = "1d";
 
 export function generateAccessToken(payload: object): string {
-  return jwt.sign(payload, ACCESS_KEY, { expiresIn: ACCESS_TOKEN_EXPIRY });
+    const { exp, iat, ...rest } = payload as any;
+  return jwt.sign(rest , ACCESS_KEY, { expiresIn: ACCESS_TOKEN_EXPIRY });
 }
 
 export function generateRefreshToken(payload: object): string {

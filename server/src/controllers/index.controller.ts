@@ -128,6 +128,7 @@ export const refreshAccessToken = async (
 ): Promise<void> => {
   try {
     const { refreshToken } = req.cookies;
+    console.log("reew",refreshToken)
 
     if (!refreshToken) {
       res.status(HttpStatus.UNAUTHORIZED).json({ message: "No refresh token provided" });
@@ -142,12 +143,14 @@ export const refreshAccessToken = async (
       res.status(HttpStatus.FORBIDDEN).json({ message: "Invalid refresh token" });
       return;
     }
+      console.log("decodedToken",decodedToken)
      if(!decodedToken){
       res.status(HttpStatus.UNAUTHORIZED).json({success:false,message:HttpResponse.TOKEN_INVALID})
       return
      }
 
     const newAccessToken = await generateAccessToken(decodedToken)
+    console.log("newAccessToken",newAccessToken)
 
     res.status(HttpStatus.OK).json({ accessToken: newAccessToken });
   } catch (error) {

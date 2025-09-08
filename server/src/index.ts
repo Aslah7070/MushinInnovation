@@ -14,7 +14,7 @@ import { errorHandler } from "./middlewares/error-catch";
 const app = express();
 app.use(
   cors({
-    origin: env.CLIENT_ORIGIN,
+    origin: env.CLIENT_ORIGIN_LOCAL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
        allowedHeaders: ['Content-Type', 'Authorization'],

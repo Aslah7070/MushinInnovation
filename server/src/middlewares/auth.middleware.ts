@@ -19,6 +19,10 @@ export function authVerification(req: Request, res: Response, next: NextFunction
     }
 
     const payload = verifyAccessToken(token) as IPayload;
+    if(!payload){
+         res.status(HttpStatus.UNAUTHORIZED).json({success:false,message:HttpResponse.UNAUTHORIZED})
+         return
+    }
 
     // attach payload for later usage
    req.headers["x-user-payload"] = JSON.stringify(payload);
