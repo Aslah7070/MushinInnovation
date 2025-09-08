@@ -8,6 +8,7 @@ import Auth from '../pages/auth'
 import HomePage from '../pages/Home'
 import MainLayout from '../layout/Main'
 import ProtectedRoute from './ProtuctedRoute'
+import PublicRoute from '../layout/publicRoute'
 
 
 const AppRoutes = () => {
@@ -22,8 +23,19 @@ const AppRoutes = () => {
      }/>
      </Route>
      <Route path="/" element={<Navigate to="/login" replace />} />
-    <Route  path='/login' element={<Auth type="login" />}/>
-    <Route  path='/signup' element={<Auth type="signup" />}/>
+    {/* <Route  path='/login' element={<Auth type="login" />}/>
+    <Route  path='/signup' element={<Auth type="signup" />}/> */}
+
+    <Route path="/login" element={
+  <PublicRoute>
+   <Auth type="login" />
+  </PublicRoute>
+}/>
+<Route path="/signup" element={
+  <PublicRoute>
+  <Auth type="signup" />
+  </PublicRoute>
+}/>
 
    
 
